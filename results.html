@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>ScholarLens — Results</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .header {
+            margin-bottom: 28px;
+        }
+
+        .header h1 {
+            margin-bottom: 8px;
+            font-size: 34px;
+        }
+
+        .header p {
+            color: #687386;
+            margin: 0;
+        }
+
+        .profile {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0 30px;
+        }
+
+        .tag {
+            background: white;
+            border: 1px solid #e2e6ef;
+            padding: 8px 13px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid #e5e8ef;
+            box-shadow: 0 8px 25px rgba(20, 30, 50, 0.06);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        .snippet {
+            color: #626d7e;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .badge {
+            padding: 7px 11px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            background: #f1f4f8;
+        }
+
+        .source {
+            background: #eef8f1;
+        }
+
+        .deadline {
+            background: #fff5df;
+        }
+
+        .match {
+            background: #eef2ff;
+        }
+
+        .reasons {
+            margin: 18px 0;
+            padding: 16px;
+            background: #f8f9fc;
+            border-radius: 12px;
+        }
+
+        .reasons h3 {
+            margin-top: 0;
+            font-size: 16px;
+        }
+
+        .reasons ul {
+            margin-bottom: 0;
+            padding-left: 20px;
+        }
+
+        .reasons li {
+            margin: 8px 0;
+            line-height: 1.4;
+        }
+
+        .source-link {
+            color: #667085;
+            font-size: 13px;
+            word-break: break-all;
+            margin-bottom: 16px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 11px 18px;
+            border-radius: 10px;
+            background: #172033;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .button:hover {
+            background: #2c3850;
+        }
+
+        .empty {
+            background: white;
+            border-radius: 18px;
+            padding: 35px;
+            text-align: center;
+        }
+
+        .disclaimer {
+            margin-top: 25px;
+            padding: 15px;
+            background: #fff8e8;
+            border: 1px solid #f2dfaa;
+            border-radius: 12px;
+            color: #725c20;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>
+            Scholarships For You
+        </h1>
+
+        <p>
+            ScholarLens found scholarships matching
+            your profile.
+        </p>
+
+    </div>
+
+
+    <div class="profile">
+
+        <div class="tag">
+            Age: {{ age }}
+        </div>
+
+        <div class="tag">
+            State: {{ state }}
+        </div>
+
+        <div class="tag">
+            Category: {{ category }}
+        </div>
+
+        <div class="tag">
+            Education: {{ education }}
+        </div>
+
+        <div class="tag">
+            Income: ₹{{ income }}
+        </div>
+
+        <div class="tag">
+            Percentage: {{ percentage }}%
+        </div>
+
+    </div>
+
+
+    {% if scholarships %}
+
+        {% for scholarship in scholarships %}
+
+            <div class="card">
+
+                <h2>
+                    {{ scholarship.title }}
+                </h2>
+
+
+                <div class="snippet">
+
+                    {{ scholarship.snippet }}
+
+                </div>
+
+
+                <div class="badges">
+
+                    <div class="badge source">
+
+                        {{ scholarship.source_icon }}
+
+                        {{ scholarship.source_status }}
+
+                    </div>
+
+
+                    <div class="badge match">
+
+                        Profile Match:
+                        {{ scholarship.match_score }}%
+
+                    </div>
+
+
+                    <div class="badge deadline">
+
+                        Deadline:
+                        {{ scholarship.deadline }}
+
+                    </div>
+
+                </div>
+
+
+                <div class="reasons">
+
+                    <h3>
+                        Why you may match
+                    </h3>
+
+                    <ul>
+
+                        {% for reason in scholarship.match_reasons %}
+
+                            <li>
+                                {{ reason }}
+                            </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+
+                <div class="source-link">
+
+                    Source:
+
+                    {{ scholarship.link }}
+
+                </div>
+
+
+                {% if scholarship.link %}
+
+                    <a
+                        class="button"
+                        href="{{ scholarship.link }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        View Scholarship →
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+
+    {% else %}
+
+        <div class="empty">
+
+            <h2>
+                No scholarships found
+            </h2>
+
+            <p>
+                Try changing your profile details
+                and search again.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+
+    <div class="disclaimer">
+
+        <strong>Important:</strong>
+
+        ScholarLens provides an estimated eligibility
+        match based on available information.
+
+        Always verify the final eligibility criteria,
+        deadline, and application instructions on the
+        official scholarship source.
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,6 @@
+Flask
+python-dotenv
+google-search-results
+requests
+beautifulsoup4
+pypdf
